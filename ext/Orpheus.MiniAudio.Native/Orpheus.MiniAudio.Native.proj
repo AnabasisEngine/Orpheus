@@ -1,0 +1,78 @@
+<Project Sdk="Microsoft.Build.NoTargets/1.0.26">
+    <PropertyGroup>
+        <TargetFramework>netstandard2.1</TargetFramework>
+        <IncludeBuildOutput>false</IncludeBuildOutput>
+        <IncludeContentInPack>true</IncludeContentInPack>
+    </PropertyGroup>
+    <ItemGroup>
+        <RuntimeIdentifier Include="linux-x64" Visible="false">
+            <OutPath>linux-x64</OutPath>
+            <TargetTriple>x86_64-linux-gnu.2.26</TargetTriple>
+            <OutputFilename>libminiaudio.so</OutputFilename>
+        </RuntimeIdentifier>
+        <!--        <RuntimeIdentifier Include="linux-x86" Visible="false">-->
+        <!--            <OutPath>linux-x86</OutPath>-->
+        <!--            <TargetTriple>x86-linux-gnu.2.26</TargetTriple>-->
+        <!--            <OutputFilename>libminiaudio.so</OutputFilename>-->
+        <!--        </RuntimeIdentifier>-->
+        <RuntimeIdentifier Include="linux-arm64" Visible="false">
+            <OutPath>linux-arm64</OutPath>
+            <TargetTriple>aarch64-linux-gnu.2.26</TargetTriple>
+            <OutputFilename>libminiaudio.so</OutputFilename>
+        </RuntimeIdentifier>
+        <RuntimeIdentifier Include="win-x64" Visible="false">
+            <OutPath>win-x64</OutPath>
+            <TargetTriple>x86_64-windows</TargetTriple>
+            <OutputFilename>miniaudio.dll</OutputFilename>
+        </RuntimeIdentifier>
+        <RuntimeIdentifier Include="win-x86" Visible="false">
+            <OutPath>win-x86</OutPath>
+            <TargetTriple>x86-windows</TargetTriple>
+            <OutputFilename>miniaudio.dll</OutputFilename>
+        </RuntimeIdentifier>
+        <RuntimeIdentifier Include="win-arm64" Visible="false">
+            <OutPath>win-arm64</OutPath>
+            <TargetTriple>aarch64-windows</TargetTriple>
+            <OutputFilename>miniaudio.dll</OutputFilename>
+        </RuntimeIdentifier>
+        <!--        <RuntimeIdentifier Include="osx-x64" Visible="false">-->
+        <!--            <OutPath>osx-x64</OutPath>-->
+        <!--            <TargetTriple>x86_64-macos</TargetTriple>-->
+        <!--            <OutputFilename>libminiaudio.dylib</OutputFilename>-->
+        <!--        </RuntimeIdentifier>-->
+        <!--        <RuntimeIdentifier Include="osx-arm64" Visible="false">-->
+        <!--            <OutPath>osx-arm64</OutPath>-->
+        <!--            <TargetTriple>aarch64-macos</TargetTriple>-->
+        <!--            <OutputFilename>libminiaudio.dylib</OutputFilename>-->
+        <!--        </RuntimeIdentifier>-->
+    </ItemGroup>
+    <ItemGroup>
+        <MACompile Include="..\miniaudio\miniaudio.h">
+            <Link>miniaudio.h</Link>
+        </MACompile>
+        <Compile Remove="miniaudio.c"/>
+        <MACompile Include="miniaudio.c"/>
+        <Compile Remove="Orpheus.MiniAudio.Native.props"/>
+        <Content Include="Orpheus.MiniAudio.Native.props"/>
+    </ItemGroup>
+    <Target Name="MiniAudioBuild" BeforeTargets="Build" DependsOnTargets="CoreMiniAudioBuild"/>
+    <Target Name="CoreMiniAudioBuild" Inputs="@(MACompile)"
+            Outputs="runtimes\%(RuntimeIdentifier.OutPath)\%(RuntimeIdentifier.OutputFilename)">
+        <Exec Command="zig build -Doptimize=ReleaseFast -Dtarget=%(RuntimeIdentifier.TargetTriple) --verbose"
+              Outputs="zig-out\lib\%(RuntimeIdentifier.OutputFilename)">
+            <Output TaskParameter="Outputs" ItemName="_BinFiles"/>
+        </Exec>
+        <Copy SourceFiles="@(_BinFiles)" DestinationFolder="runtimes\%(RuntimeIdentifier.OutPath)">
+            <Output TaskParameter="CopiedFiles" ItemName="_FinalBins"/>
+        </Copy>
+        <ItemGroup>
+            <Content Include="@(_FinalBins)">
+                <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+                <PublishState>Included</PublishState>
+            </Content>
+        </ItemGroup>
+    </Target>
+    <Target Name="ZigClean" AfterTargets="MiniAudioBuild" BeforeTargets="Build">
+        <RemoveDir Directories="zig-cache;zig-out"/>
+    </Target>
+</Project>

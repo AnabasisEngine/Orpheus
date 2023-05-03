@@ -1,0 +1,47 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = ".sln-items", ".sln-items.proj", "{60CD7744-82B8-4ECF-B244-6876C344F581}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ext", "ext", "{FDA8CF23-DE43-4311-93B2-7D9F385AC5E3}"
+	ProjectSection(SolutionItems) = preProject
+		ext\Directory.Build.props = ext\Directory.Build.props
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{4FBB32B3-32C1-4835-91C9-8BEA52073ACE}"
+	ProjectSection(SolutionItems) = preProject
+		src\Directory.Build.props = src\Directory.Build.props
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{451CD502-C9CB-4827-82C5-EBF725DB60C6}"
+	ProjectSection(SolutionItems) = preProject
+		test\Directory.Build.props = test\Directory.Build.props
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Orpheus.MiniAudio.Native", "ext\Orpheus.MiniAudio.Native\Orpheus.MiniAudio.Native.proj", "{9BAAB8DA-CEE9-470A-BD59-BAFDDCDA74C8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Orpheus.MiniAudio", "src\Orpheus.MiniAudio\Orpheus.MiniAudio.csproj", "{95F3B0C0-4177-42E9-9780-F17CA8724F58}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{60CD7744-82B8-4ECF-B244-6876C344F581}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{60CD7744-82B8-4ECF-B244-6876C344F581}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{60CD7744-82B8-4ECF-B244-6876C344F581}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{60CD7744-82B8-4ECF-B244-6876C344F581}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9BAAB8DA-CEE9-470A-BD59-BAFDDCDA74C8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9BAAB8DA-CEE9-470A-BD59-BAFDDCDA74C8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9BAAB8DA-CEE9-470A-BD59-BAFDDCDA74C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9BAAB8DA-CEE9-470A-BD59-BAFDDCDA74C8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{95F3B0C0-4177-42E9-9780-F17CA8724F58}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{95F3B0C0-4177-42E9-9780-F17CA8724F58}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{95F3B0C0-4177-42E9-9780-F17CA8724F58}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{95F3B0C0-4177-42E9-9780-F17CA8724F58}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{9BAAB8DA-CEE9-470A-BD59-BAFDDCDA74C8} = {FDA8CF23-DE43-4311-93B2-7D9F385AC5E3}
+		{95F3B0C0-4177-42E9-9780-F17CA8724F58} = {4FBB32B3-32C1-4835-91C9-8BEA52073ACE}
+	EndGlobalSection
+EndGlobal

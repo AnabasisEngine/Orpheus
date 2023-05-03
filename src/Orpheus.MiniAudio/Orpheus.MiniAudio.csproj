@@ -1,0 +1,5 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+    <ItemGroup>
+        <ProjectReference Include="..\..\ext\Orpheus.MiniAudio.Native\Orpheus.MiniAudio.Native.proj" ReferenceOutputAssembly="false"/>
+    </ItemGroup>
+</Project>
