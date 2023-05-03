@@ -50,20 +50,22 @@
         <MACompile Include="..\miniaudio\miniaudio.h">
             <Link>miniaudio.h</Link>
         </MACompile>
-        <Compile Remove="miniaudio.c"/>
-        <MACompile Include="miniaudio.c"/>
-        <Compile Remove="Orpheus.MiniAudio.Native.props"/>
-        <Content Include="Orpheus.MiniAudio.Native.props"/>
+        <Compile Remove="miniaudio.c" />
+        <MACompile Include="miniaudio.c" />
+        <Compile Remove="Orpheus.MiniAudio.Native.props" />
     </ItemGroup>
-    <Target Name="MiniAudioBuild" BeforeTargets="Build" DependsOnTargets="CoreMiniAudioBuild"/>
-    <Target Name="CoreMiniAudioBuild" Inputs="@(MACompile)"
-            Outputs="runtimes\%(RuntimeIdentifier.OutPath)\%(RuntimeIdentifier.OutputFilename)">
-        <Exec Command="zig build -Doptimize=ReleaseFast -Dtarget=%(RuntimeIdentifier.TargetTriple) --verbose"
-              Outputs="zig-out\lib\%(RuntimeIdentifier.OutputFilename)">
-            <Output TaskParameter="Outputs" ItemName="_BinFiles"/>
+    <ItemGroup>
+      <Content Include="build\Orpheus.MiniAudio.Native.props">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
+    </ItemGroup>
+    <Target Name="MiniAudioBuild" BeforeTargets="Build" DependsOnTargets="CoreMiniAudioBuild" />
+    <Target Name="CoreMiniAudioBuild" Inputs="@(MACompile)" Outputs="runtimes\%(RuntimeIdentifier.OutPath)\native\%(RuntimeIdentifier.OutputFilename)">
+        <Exec Command="zig build -Doptimize=ReleaseFast -Dtarget=%(RuntimeIdentifier.TargetTriple) --verbose" Outputs="zig-out\lib\%(RuntimeIdentifier.OutputFilename)">
+            <Output TaskParameter="Outputs" ItemName="_BinFiles" />
         </Exec>
-        <Copy SourceFiles="@(_BinFiles)" DestinationFolder="runtimes\%(RuntimeIdentifier.OutPath)">
-            <Output TaskParameter="CopiedFiles" ItemName="_FinalBins"/>
+        <Copy SourceFiles="@(_BinFiles)" DestinationFolder="runtimes\%(RuntimeIdentifier.OutPath)\native">
+            <Output TaskParameter="CopiedFiles" ItemName="_FinalBins" />
         </Copy>
         <ItemGroup>
             <Content Include="@(_FinalBins)">
@@ -73,6 +75,6 @@
         </ItemGroup>
     </Target>
     <Target Name="ZigClean" AfterTargets="MiniAudioBuild" BeforeTargets="Build">
-        <RemoveDir Directories="zig-cache;zig-out"/>
+        <RemoveDir Directories="zig-cache;zig-out" />
     </Target>
 </Project>

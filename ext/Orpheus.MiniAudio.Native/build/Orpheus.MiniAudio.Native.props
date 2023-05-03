@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <_Orpheus_MiniAudio_IsWindows Condition="'$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Windows)))' == 'true'">true</_Orpheus_MiniAudio_IsWindows>
+        <_Orpheus_MiniAudio_IsMacOS Condition="'$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::OSX)))' == 'true'">true</_Orpheus_MiniAudio_IsMacOS>
+        <_Orpheus_MiniAudio_IsLinux Condition="'$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Linux)))' == 'true'">true</_Orpheus_MiniAudio_IsLinux>
+
+        <_Orpheus_MiniAudio_NativeRuntime Condition=" '$(_Orpheus_MiniAudio_NativeRuntime)' == '' And '$(_Orpheus_MiniAudio_IsLinux)' == 'true' And ('$(Prefer32Bit)' == 'false' Or '$(PlatformTarget)' == 'x64')">linux-x64</_Orpheus_MiniAudio_NativeRuntime>
+        <_Orpheus_MiniAudio_NativeRuntime Condition=" '$(_Orpheus_MiniAudio_NativeRuntime)' == '' And '$(_Orpheus_MiniAudio_IsLinux)' == 'true' And ('$(Prefer32Bit)' == 'true' Or '$(PlatformTarget)' == 'x86')">linux-x86</_Orpheus_MiniAudio_NativeRuntime>
+        <_Orpheus_MiniAudio_NativeRuntime Condition=" '$(_Orpheus_MiniAudio_NativeRuntime)' == '' And '$(_Orpheus_MiniAudio_IsWindows)' == 'true' And ('$(Prefer32Bit)' == 'true' Or '$(PlatformTarget)' == 'x86')">win-x86</_Orpheus_MiniAudio_NativeRuntime>
+        <_Orpheus_MiniAudio_NativeRuntime Condition=" '$(_Orpheus_MiniAudio_NativeRuntime)' == '' And '$(_Orpheus_MiniAudio_IsWindows)' == 'true' And ('$(Prefer32Bit)' == 'false' Or '$(PlatformTarget)' == 'x64')">win-x64</_Orpheus_MiniAudio_NativeRuntime>
+        <_Orpheus_MiniAudio_NativeRuntime Condition=" '$(_Orpheus_MiniAudio_NativeRuntime)' == '' And '$(_Orpheus_MiniAudio_IsWindows)' == 'true' And '$(PlatformTarget)' == 'arm64'">win-arm64</_Orpheus_MiniAudio_NativeRuntime>
+        <_Orpheus_MiniAudio_NativeRuntime Condition=" '$(_Orpheus_MiniAudio_NativeRuntime)' == '' And '$(_Orpheus_MiniAudio_IsMacOS)' == 'true' And ('$(Prefer32Bit)' == 'false' Or '$(PlatformTarget)' == 'x64')">osx-x64</_Orpheus_MiniAudio_NativeRuntime>
+        <_Orpheus_MiniAudio_NativeRuntime Condition=" '$(_Orpheus_MiniAudio_NativeRuntime)' == '' And '$(_Orpheus_MiniAudio_IsMacOS)' == 'true' And ('$(Prefer32Bit)' == 'false' Or '$(PlatformTarget)' == 'x64')">osx-x64</_Orpheus_MiniAudio_NativeRuntime>
+
+        <_Orpheus_MiniAudio_NativeLibName Condition="'$(_Orpheus_MiniAudio_NativeRuntime)' == 'win-x86'">miniaudio.dll</_Orpheus_MiniAudio_NativeLibName>
+        <_Orpheus_MiniAudio_NativeLibName Condition="'$(_Orpheus_MiniAudio_NativeRuntime)' == 'win-x64'">miniaudio.dll</_Orpheus_MiniAudio_NativeLibName>
+        <_Orpheus_MiniAudio_NativeLibName Condition="'$(_Orpheus_MiniAudio_NativeRuntime)' == 'win-arm64'">miniaudio.dll</_Orpheus_MiniAudio_NativeLibName>
+        <_Orpheus_MiniAudio_NativeLibName Condition="'$(_Orpheus_MiniAudio_NativeRuntime)' == 'linux-x64'">libminiaudio.so</_Orpheus_MiniAudio_NativeLibName>
+        <_Orpheus_MiniAudio_NativeLibName Condition="'$(_Orpheus_MiniAudio_NativeRuntime)' == 'linux-x86'">libminiaudio.so</_Orpheus_MiniAudio_NativeLibName>
+        <_Orpheus_MiniAudio_NativeLibName Condition="'$(_Orpheus_MiniAudio_NativeRuntime)' == 'linux-arm64'">libminiaudio.so</_Orpheus_MiniAudio_NativeLibName>
+        <_Orpheus_MiniAudio_NativeLibName Condition="'$(_Orpheus_MiniAudio_NativeRuntime)' == 'osx-arm64'">libminiaudio.dylib</_Orpheus_MiniAudio_NativeLibName>
+        <_Orpheus_MiniAudio_NativeLibName Condition="'$(_Orpheus_MiniAudio_NativeRuntime)' == 'osx-x64'">libminiaudio.dylib</_Orpheus_MiniAudio_NativeLibName>
+    </PropertyGroup>
+    <ItemGroup>
+        <Content Condition="'$(_Orpheus_MiniAudio_NativeRuntime)' != ''" 
+                 Include="$(MSBuildThisFileDirectory)..\runtimes\$(_Orpheus_MiniAudio_NativeRuntime)\native\$(_Orpheus_MiniAudio_NativeLibName)">
+            <Link>%(Filename)%(Extension)</Link>
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+            <Visible>False</Visible>
+        </Content>
+    </ItemGroup>
+</Project>
